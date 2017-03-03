@@ -11,10 +11,10 @@ class Item : public QObject
 public:
     explicit Item(QString desc, float value, QObject *parent = 0);
 
-    float value() { return m_value; }
-    void setValue(float v) { m_value = v; emit valueChanged(); }
-    QString desc() { return m_desc; }
-    void setDesc(QString d) { m_desc = d; emit descChanged(); }
+    float value();
+    void setValue(float);
+    QString desc();
+    void setDesc(QString);
 
 signals:
     void valueChanged();

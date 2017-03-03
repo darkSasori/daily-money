@@ -19,13 +19,12 @@ public:
     Q_INVOKABLE void remove(int);
     Q_INVOKABLE void newItem(QString, float);
 
-    QList<QObject*> list() { return m_list; }
-    QDate date() { return m_date; }
-    float balance() { return m_balance; }
-
-    void setList(QList<QObject*> l) { m_list = l; emit listChanged(); }
-    void setDate(QDate d) { m_date = d; emit dateChanged(); }
-    void setBalance(float b) { m_balance = b; emit balanceChanged(); }
+    QList<QObject*> list();
+    void setList(QList<QObject*>);
+    QDate date();
+    void setDate(QDate);
+    float balance();
+    void setBalance(float b);
 
 signals:
     void listChanged();

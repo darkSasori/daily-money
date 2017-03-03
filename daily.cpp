@@ -38,3 +38,36 @@ void Daily::updateBalance()
     }
     emit balanceChanged();
 }
+
+QList<QObject*> Daily::list()
+{
+    return m_list;
+}
+
+void Daily::setList(QList<QObject *> l)
+{
+    m_list = l;
+    emit listChanged();
+}
+
+QDate Daily::date()
+{
+    return m_date;
+}
+
+void Daily::setDate(QDate d)
+{
+    m_date = d;
+    emit dateChanged();
+}
+
+float Daily::balance()
+{
+    return m_balance;
+}
+
+void Daily::setBalance(float b)
+{
+    m_balance = b;
+    emit balanceChanged();
+}
