@@ -2,9 +2,9 @@
 
 Daily::Daily(float startBalance, QObject *parent)
     : QObject(parent)
+    , m_date(QDate::currentDate())
     , m_startBalance(startBalance)
     , m_balance(0)
-    , m_date(QDate::currentDate())
 {
     connect(this, SIGNAL(listChanged()), this, SLOT(updateBalance()));
 }
@@ -18,7 +18,6 @@ void Daily::append(Item *item)
 
 void Daily::remove(int index)
 {
-    auto item = m_list.at(index);
     m_list.removeAt(index);
     emit listChanged();
 }

@@ -37,8 +37,8 @@ public slots:
 private:
     QList<QObject*> m_list;
     QDate m_date;
-    float m_balance;
     float m_startBalance;
+    float m_balance;
 };
 
 #endif // DAILY_H
