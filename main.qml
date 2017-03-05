@@ -58,7 +58,7 @@ ApplicationWindow {
     FormDaily {
         id: formDialy
         onAccepted: {
-            today.newItem(desc.text, parseFloat(value.text))
+            manager.today.newItem(desc.text, parseFloat(value.text))
         }
     }
 
@@ -66,7 +66,7 @@ ApplicationWindow {
         Layout.fillWidth: true
         Label {
             id: date
-            text: today.date.toLocaleDateString(Qt.locale("pt_BR"), "dd/MM/yyyy")
+            text: manager.today.date.toLocaleDateString(Qt.locale("pt_BR"), "dd/MM/yyyy")
             Layout.fillWidth: true
             Layout.leftMargin: 10
             Layout.bottomMargin: 5
@@ -75,7 +75,7 @@ ApplicationWindow {
             id: balance
             Layout.rightMargin: 10
             Layout.bottomMargin: 5
-            text: "R$ " + today.balance
+            text: "R$ " + manager.today.balance
         }
     }
 
@@ -86,8 +86,8 @@ ApplicationWindow {
         initialItem: Daily {
             id: daily
             anchors.fill: parent
-            model: today.list
-            obj: today
+            model: manager.today.list
+            obj: manager.today
         }
     }
 
@@ -97,25 +97,47 @@ ApplicationWindow {
         height: main.height
         dragMargin: stackView.depth > 1 ? 0 : undefined
 
-        ListView {
-            id: listView
-
-            focus: true
-            currentIndex: -1
+        ColumnLayout {
             anchors.fill: parent
 
-            delegate: ItemDelegate {
+            ListView {
+                id: listView
+
+                focus: true
+                currentIndex: -1
                 width: parent.width
-                text: model.title
-                highlighted: ListView.isCurrentItem
-                onClicked: {
-                    listView.currentIndex = index
-                    drawer.close()
+                Layout.fillHeight: true
+
+                delegate: ItemDelegate {
+                    width: parent.width
+                    text: modelData.date.toLocaleDateString(Qt.locale("pt_BR"), "dd/MM/yyyy")
+                    highlighted: ListView.isCurrentItem
+                    onClicked: {
+                        listView.currentIndex = index
+                        drawer.close()
+                    }
                 }
+
+                model: manager.list
             }
 
-            model: ListModel {
+            Rectangle {
+                width: parent.width
+                color: '#fff'
+                height: 1
             }
+
+            ItemDelegate {
+                Layout.fillWidth: true
+                text: "Settings"
+            }
+
+            ItemDelegate {
+                Layout.fillWidth: true
+                text: "Exit"
+                onClicked: Qt.quit();
+            }
+
         }
     }
 }

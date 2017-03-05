@@ -4,7 +4,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     item.cpp \
-    daily.cpp
+    daily.cpp \
+    manager.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,4 +33,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     item.h \
-    daily.h
+    daily.h \
+    manager.h

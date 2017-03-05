@@ -4,7 +4,7 @@ Daily::Daily(float startBalance, QObject *parent)
     : QObject(parent)
     , m_date(QDate::currentDate())
     , m_startBalance(startBalance)
-    , m_balance(0)
+    , m_balance(startBalance)
 {
     connect(this, SIGNAL(listChanged()), this, SLOT(updateBalance()));
 }
