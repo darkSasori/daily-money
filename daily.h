@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDateTime>
 #include "item.h"
+#include "dbconnection.h"
 
 class Daily : public QObject
 {
@@ -12,9 +13,10 @@ class Daily : public QObject
     Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
     Q_PROPERTY(float balance READ balance WRITE setBalance NOTIFY balanceChanged)
 public:
-    explicit Daily(float startBalance, QObject *parent = 0);
+    explicit Daily(DbConnection db, QDate date, float startBalance, QObject *parent = 0);
 
     void append(Item *);
+    void init();
 
     Q_INVOKABLE void remove(int);
     Q_INVOKABLE void newItem(QString, float);
@@ -33,12 +35,14 @@ signals:
 
 public slots:
     void updateBalance();
+    void updateItem(Item*);
 
 private:
     QList<QObject*> m_list;
     QDate m_date;
     float m_startBalance;
     float m_balance;
+    DbConnection m_db;
 };
 
 #endif // DAILY_H

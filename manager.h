@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDate>
 #include "daily.h"
+#include "dbconnection.h"
 
 class Manager : public QObject
 {
@@ -11,7 +12,7 @@ class Manager : public QObject
     Q_PROPERTY(QObject* today READ today WRITE setToday NOTIFY todayChanged)
     Q_PROPERTY(QList<QObject*> list READ list WRITE setList NOTIFY listChanged)
 public:
-    explicit Manager(QObject *parent = 0);
+    explicit Manager(DbConnection db, QObject *parent = 0);
 
     QObject* today();
     void setToday(QObject *);
@@ -28,6 +29,7 @@ signals:
 public slots:
 
 private:
+    DbConnection m_db;
     QList<QObject*> m_list;
     QObject *m_today;
 };

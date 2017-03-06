@@ -122,7 +122,7 @@ ApplicationWindow {
             }
 
             Rectangle {
-                width: parent.width
+                Layout.fillWidth: true
                 color: '#fff'
                 height: 1
             }

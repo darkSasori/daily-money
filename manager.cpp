@@ -1,7 +1,8 @@
 #include "manager.h"
 
-Manager::Manager(QObject *parent)
+Manager::Manager(DbConnection db, QObject *parent)
     : QObject(parent)
+    , m_db(db)
 {
     updateToday();
 }
@@ -30,7 +31,7 @@ void Manager::setList(QList<QObject *> list)
 
 void Manager::updateToday()
 {
-    QDate today;
+    QDate today = QDate::currentDate();
     for (auto it: m_list) {
         auto i = qobject_cast<Daily*>(it);
         if (i->date() == today) {
@@ -38,7 +39,7 @@ void Manager::updateToday()
         }
     }
 
-    Daily *daily = new Daily(50);
+    Daily *daily = new Daily(m_db, today, 50);
     m_list.append(daily);
     setToday(daily);
     emit listChanged();

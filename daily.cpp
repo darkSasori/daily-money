@@ -1,31 +1,42 @@
 #include "daily.h"
 
-Daily::Daily(float startBalance, QObject *parent)
+Daily::Daily(DbConnection db, QDate date, float startBalance, QObject *parent)
     : QObject(parent)
-    , m_date(QDate::currentDate())
+    , m_date(date)
     , m_startBalance(startBalance)
     , m_balance(startBalance)
+    , m_db(db)
 {
     connect(this, SIGNAL(listChanged()), this, SLOT(updateBalance()));
+    init();
+}
+
+void Daily::init()
+{
+    setList(m_db.getItems(m_date));
 }
 
 void Daily::append(Item *item)
 {
     m_list.append(item);
     connect(item, SIGNAL(valueChanged()), this, SLOT(updateBalance()));
+    connect(item, SIGNAL(itemChanged(Item*)), this, SLOT(updateItem(Item*)));
     emit listChanged();
 }
 
 void Daily::remove(int index)
 {
+    Item * item = qobject_cast<Item*>(m_list.at(index));
+    m_db.removeItem(item);
     m_list.removeAt(index);
     emit listChanged();
 }
 
 void Daily::newItem(QString desc, float value)
 {
-    append(new Item(desc, value));
-    emit listChanged();
+    Item * item = new Item(desc, value);
+    append(item);
+    m_db.addItem(item, m_date);
 }
 
 void Daily::updateBalance()
@@ -38,15 +49,22 @@ void Daily::updateBalance()
     emit balanceChanged();
 }
 
+void Daily::updateItem(Item *item)
+{
+    m_db.updateItem(item);
+}
+
 QList<QObject*> Daily::list()
 {
     return m_list;
 }
 
-void Daily::setList(QList<QObject *> l)
+void Daily::setList(QList<QObject *> list)
 {
-    m_list = l;
-    emit listChanged();
+    for (auto obj: list) {
+        Item *item = qobject_cast<Item*>(obj);
+        append(item);
+    }
 }
 
 QDate Daily::date()

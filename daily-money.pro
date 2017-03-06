@@ -1,11 +1,12 @@
-QT += qml quick
+QT += qml quick sql
 
 CONFIG += c++11
 
 SOURCES += main.cpp \
     item.cpp \
     daily.cpp \
-    manager.cpp
+    manager.cpp \
+    dbconnection.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     item.h \
     daily.h \
-    manager.h
+    manager.h \
+    dbconnection.h
