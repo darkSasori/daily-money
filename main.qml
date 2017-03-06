@@ -104,7 +104,6 @@ ApplicationWindow {
                 id: listView
 
                 focus: true
-                currentIndex: -1
                 width: parent.width
                 Layout.fillHeight: true
 
@@ -113,23 +112,23 @@ ApplicationWindow {
                     text: modelData.date.toLocaleDateString(Qt.locale("pt_BR"), "dd/MM/yyyy")
                     highlighted: ListView.isCurrentItem
                     onClicked: {
+                        if (listView.currentIndex == index) {
+                            drawer.close()
+                            return;
+                        }
+
+                        modelData.init()
+                        balance.text = "R$ " + modelData.balance
+                        date.text = modelData.date.toLocaleDateString(Qt.locale("pt_BR"), "dd/MM/yyyy")
+                        daily.model = modelData.list
+                        daily.obj = modelData
+
                         listView.currentIndex = index
                         drawer.close()
                     }
                 }
 
                 model: manager.list
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                color: '#fff'
-                height: 1
-            }
-
-            ItemDelegate {
-                Layout.fillWidth: true
-                text: "Settings"
             }
 
             ItemDelegate {

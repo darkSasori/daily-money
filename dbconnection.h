@@ -20,6 +20,7 @@ public:
     void updateItem(Item *);
     void removeItem(Item *);
     QList<QObject*> getItems(QDate);
+    QList<QDate> getDates();
 
 private:
     QSqlDatabase m_db;

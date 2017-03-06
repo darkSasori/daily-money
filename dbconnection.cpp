@@ -37,7 +37,7 @@ void DbConnection::addItem(Item *item, QDate date)
     query.bindValue(":desc", item->desc());
     query.bindValue(":value", item->value());
     if (!query.exec()) {
-        qDebug() << query.lastError().text();
+        qWarning() << query.lastError().text();
     }
 }
 
@@ -76,7 +76,7 @@ void DbConnection::updateItem(Item *item)
     query.bindValue(":desc", item->desc());
     query.bindValue(":value", item->value());
     if (!query.exec()) {
-        qDebug() << query.lastError().text();
+        qWarning() << query.lastError().text();
     }
 }
 
@@ -90,6 +90,26 @@ void DbConnection::removeItem(Item *item)
     query.prepare("DELETE FROM lanc WHERE id = :id");
     query.bindValue(":id", item->id());
     if (!query.exec()) {
-        qDebug() << query.lastError().text();
+        qWarning() << query.lastError().text();
     }
+}
+
+QList<QDate> DbConnection::getDates()
+{
+    QList<QDate> list;
+
+    if (!m_db.isOpen()) {
+        return list;
+    }
+
+    QSqlQuery query;
+    query.prepare("SELECT `date` FROM lanc GROUP BY `date` ORDER BY `date` desc");
+    if (query.exec()) {
+        while (query.next()) {
+            QDate date = query.value(0).toDate();
+            list.append(date);
+        }
+    }
+
+    return list;
 }

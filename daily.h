@@ -16,8 +16,8 @@ public:
     explicit Daily(DbConnection db, QDate date, float startBalance, QObject *parent = 0);
 
     void append(Item *);
-    void init();
 
+    Q_INVOKABLE void init();
     Q_INVOKABLE void remove(int);
     Q_INVOKABLE void newItem(QString, float);
 
@@ -43,6 +43,7 @@ private:
     float m_startBalance;
     float m_balance;
     DbConnection m_db;
+    bool m_initialized;
 };
 
 #endif // DAILY_H

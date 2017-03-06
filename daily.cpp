@@ -6,14 +6,18 @@ Daily::Daily(DbConnection db, QDate date, float startBalance, QObject *parent)
     , m_startBalance(startBalance)
     , m_balance(startBalance)
     , m_db(db)
+    , m_initialized(false)
 {
     connect(this, SIGNAL(listChanged()), this, SLOT(updateBalance()));
-    init();
 }
 
 void Daily::init()
 {
+    if (m_initialized) {
+        return;
+    }
     setList(m_db.getItems(m_date));
+    m_initialized = true;
 }
 
 void Daily::append(Item *item)
