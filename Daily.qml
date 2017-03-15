@@ -36,7 +36,7 @@ ListView {
 
             Label {
                 Layout.rightMargin: 10
-                text: modelData.value
+                text: Number(modelData.value).toLocaleString(Qt.locale("pt_BR"))
             }
         }
     }

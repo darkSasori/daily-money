@@ -75,7 +75,7 @@ ApplicationWindow {
             id: balance
             Layout.rightMargin: 10
             Layout.bottomMargin: 5
-            text: "R$ " + manager.today.balance
+            text: "R$ " + Number(manager.today.balance).toLocaleString(Qt.locale("pt_BR"))
         }
     }
 
@@ -118,7 +118,7 @@ ApplicationWindow {
                         }
 
                         modelData.init()
-                        balance.text = "R$ " + modelData.balance
+                        balance.text = "R$ " + Number(modelData.balance).toLocaleString(Qt.locale("pt_BR"))
                         date.text = modelData.date.toLocaleDateString(Qt.locale("pt_BR"), "dd/MM/yyyy")
                         daily.model = modelData.list
                         daily.obj = modelData
