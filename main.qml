@@ -133,6 +133,12 @@ ApplicationWindow {
 
             ItemDelegate {
                 Layout.fillWidth: true
+                text: "Config"
+                onClicked: Qt.quit();
+            }
+
+            ItemDelegate {
+                Layout.fillWidth: true
                 text: "Exit"
                 onClicked: Qt.quit();
             }

@@ -11,15 +11,9 @@ ListView {
         width: parent.width
 
         onPressAndHold: {
-            formDialy.obj = modelData
-            formDialy.desc.text = modelData.desc
-            formDialy.value.text = modelData.value
-            formDialy.open();
-        }
-
-        onDoubleClicked: {
-            remove.index = index
-            remove.open();
+            options.index = index
+            options.obj = modelData
+            options.open()
         }
 
         RowLayout {
@@ -58,11 +52,56 @@ ListView {
 
         focus: true
         modal: true
-        title: "Do yo want remove?"
-        standardButtons: Dialog.Ok | Dialog.Cancel
+        title: "Do you want remove?"
+        DialogButtonBox {
+            Button {
+                text: qsTr("Ok")
+                onClicked: {
+                    obj.remove(remove.index)
+                    remove.index = -1
+                    remove.close()
+                }
+            }
+            Button {
+                text: qsTr("Cancel")
+                onClicked: {
+                    remove.index = -1
+                    remove.close()
+                }
+            }
+        }
+    }
 
-        onAccepted: {
-            obj.remove(index)
+    Dialog {
+        property variant obj: null
+        property int index: -1
+        id: options
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        parent: ApplicationWindow.overlay
+
+        focus: true
+        modal: true
+        DialogButtonBox {
+            Button {
+                text: qsTr("Edit")
+                onClicked: {
+                    options.close()
+                    formDialy.obj = options.obj
+                    formDialy.desc.text = options.obj.desc
+                    formDialy.value.text = options.obj.value
+                    formDialy.open();
+                }
+            }
+            Button {
+                text: qsTr("Remove")
+                onClicked: {
+                    remove.index = options.index
+                    options.close()
+                    remove.open()
+                    options.index = -1
+                }
+            }
         }
     }
 }
